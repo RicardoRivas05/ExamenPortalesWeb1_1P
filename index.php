@@ -5,7 +5,8 @@
     //Validamos si se envio informacion por el metodo POST
     if($_SERVER["REQUEST_METHOD"] == "POST"){
         //Obtenemos los valores enviados por el metodo POST
-        $num1 = isset($_POST["num1"]) ? $_POST["num1"] : null;
+        //Se evalua cada valor enviado por el metodo POST, si no se envio ningun valor, se asigna null
+        $num1 = isset($_POST["num1"]) ? $_POST["num1"] : null; 
         $num2 = isset($_POST["num2"]) ? $_POST["num2"] : null;
         $operacion = isset($_POST["opciones"]) ? $_POST["opciones"] : null;
         $temp1 = isset($_POST["temp1"]) ? $_POST["temp1"] : null;
@@ -31,9 +32,15 @@
                     echo "El resultado de la multiplicacion es: $resultado";
                     break;
                 case "dividir":
-                    $resultado = $calculadora->dividir($num1, $num2);
-                    echo "El resultado de la division es: $resultado";
-                    break;
+                    //Validamos si se esta dividiendo entre 0
+                    if($num2 == 0){
+                        echo "No se puede dividir entre 0";
+                        break;
+                    }else{ //Si no se esta dividiendo entre 0, se realiza la division
+                        $resultado = $calculadora->dividir($num1, $num2);
+                        echo "El resultado de la division es: $resultado";
+                        break;
+                    }
                 case"potencia":
                     $resultado = $calculadora->potencia($num1, $num2);
                     echo "El resultado de la potencia es: $resultado";
@@ -67,7 +74,7 @@
 <body>
     <!-- Formulario para seleccionar la operacion matematica a realizar -->
     <h2>Calculadora Matematica de Operaciones Basicas</h2>
-    <br></br>
+    <br>
     <form method="post">
         <!-- Select que muestras las opciones de operaciones matematicas -->
         <label for="opciones">Selecciones la operacion a realizar: </label>
@@ -78,7 +85,7 @@
             <option value="dividir">Dividir</option>
             <option value="potencia">Potencia</option>
         </select>
-        <br><br><br>
+        <br><br>
     
         <!-- Inputs para ingresar los numeros a operar -->
         <label for="n1">Ingrese el primero numero: </label>
@@ -96,7 +103,7 @@
     <!-- Formulario para seleccionar la conversion de temperatura a realizar -->
     <form method="post">
         <h2>Conversor de Temperatura</h2>
-        <br></br>
+        <br>
         <!-- Input para ingresar la temperatura a convertir -->
         <label for="n1">Ingrese la Temperatura: </label>
         <input type="number" name="temp1" required>
